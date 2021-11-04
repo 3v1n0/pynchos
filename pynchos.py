@@ -1,7 +1,10 @@
 import googlemaps
-from html import escape
+import os
+
 from enum import Enum
+from html import escape
 from secret import GMAPS_API_KEY
+from zipfile import ZipFile
 
 
 class Pincho(Enum):
@@ -328,3 +331,11 @@ output += """
 
 with open('doc.kml', 'w') as f:
     f.write(output)
+
+
+with ZipFile('doc.kmz', 'w') as zip:
+   zip.write('doc.kml')
+
+   for folder_name, subfolders, filenames in os.walk('images'):
+       for filename in filenames:
+           zip.write(os.path.join(folder_name, filename))
